@@ -1,30 +1,35 @@
 import re
+import timeit
 class Student(object):
     def __init__(self,rollno,name,marks):
         self.rollno = rollno
         self.name   = name
         self.marks  = marks
+        
     def filewrite(self,filename):
         file = open(filename,"w")
         file.write(self.rollno+"\t"+str(self.name)+"\t"+str(self.marks))
+        
     def findsum(self,fieldname,filename):
         file = open(filename,"r")
         sum =0;
+        counter =0;
+        if(fieldname == "Roll Number"):
+            counter =0;
+        elif(fieldname == "Marks"):
+            counter =2;
+        else:
+            print("Invalid Fieldname ")
+            return
         for line in file:
             l = line
             values = re.split(r'\t+', l.rstrip('\n'))
-            if(fieldname == "Roll Number"):
-                sum+=int(values[0])
-            elif(fieldname == "Name"):
-                print("Invalid Fieldname:- Can't Add Strings")
-                break
-            elif(fieldname == "Marks"):
-                sum+=int(values[2])
-            else:
-                print("Invalid Fieldname :- Fieldname Not present")
+            sum+=int(values[counter])
         print("The sum is :- "+str(sum))
+        
     def fileread(self,filename):
         file = open(filename,"r")
+        print("Roll No\tName\tMarks")
         for line in file:
             print(line)
 
@@ -42,12 +47,20 @@ if __name__=='__main__':
 		
 		if(ch=="P"):
 			print("\nHere is the data of all files:")
+			start = timeit.default_timer()
 			s.fileread("Student.txt")
+			stop = timeit.default_timer()
+			total_time = stop - start
+			print(total_time)
 			
 		elif(ch=="S"):
 			print("The possible field names are: Roll Number, Name, Marks")
 			field = input("Enter Field Name: ")
+			start = timeit.default_timer()
 			s.findsum(field,"Student.txt")
+			stop = timeit.default_timer()
+			total_time = stop - start
+			print(total_time)
 		elif(ch=='Q'):
 			break
 		else:

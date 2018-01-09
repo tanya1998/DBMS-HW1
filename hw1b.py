@@ -1,4 +1,5 @@
 import re
+import timeit
 def fileread(filename,metafile):
     file = open(metafile,"r")
     for line in file:
@@ -49,12 +50,20 @@ while(True):
 		
 		if(ch=="P"):
 			print("\nHere is the data of all files:")
+			start = timeit.default_timer()
 			fileread("metainput.txt","metadata.txt")
+			stop = timeit.default_timer()
+			total_time = stop - start
+			print(total_time)
 			
 		elif(ch=="S"):
 			print("The possible field names are: Roll Number, Name, Marks")
 			field = input("Enter Field Name: ")
+			start = timeit.default_timer()
 			findsum(field,"metainput.txt","metadata.txt")
+			stop = timeit.default_timer()
+			total_time = stop - start
+			print(total_time)
 			
 		elif(ch=='Q'):
 			break
