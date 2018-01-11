@@ -10,6 +10,19 @@ def fileread(filename,metafile):
     file1 = open(filename,"r")
     for line in file1:
         print(line)
+def filewrite(filename,readfile,metafile):
+    file = open(filename,"r")
+    file1 = open(readfile,"w")
+    file2 = open(metafile,"r")
+    s =""
+    for line in file2:
+        line = line.rstrip('\n')
+        if(line.split(" = ")[0] =="Field Name"):
+            s+=(line.split(" = ")[1]+"\t")
+    s+="\n"
+    file1.write(s)
+    for line in file:
+        file1.write(line)
         
 def findsum(fieldname,filename,metafile):
         file = open(filename,"r")
@@ -32,12 +45,17 @@ def findsum(fieldname,filename,metafile):
         for line in file:
             l = line
             values = re.split(r'\t+', l.rstrip('\n'))
-            if(datatype == "Float" or datatype == "Integer" or datatype == "Double" ):
+            if(datatype == "Integer"):
                 sum+=int(values[counter])
+            elif(datatype == "Float" ):
+                sum+=float(values[counter])
+            elif(datatype == "Double" ):
+                sum+=double(values[counter])
             else:
                 print("Invalid Fieldname:- Can't Add Strings")
                 break
         print("The sum is :- "+str(sum))
+filewrite("metainput.txt","write.txt","metadata.txt")
         
 while(True):
 		print("\n\n\nWelcome to the Student Database");
