@@ -1,5 +1,6 @@
 import re
 import timeit
+import sys
 def fileread(filename,metafile):
     file = open(metafile,"r")
     for line in file:
@@ -15,13 +16,25 @@ def filewrite(filename,readfile,metafile):
     file1 = open(readfile,"w")
     file2 = open(metafile,"r")
     s =""
+    arr=[]
     for line in file2:
         line = line.rstrip('\n')
         if(line.split(" = ")[0] =="Field Name"):
             s+=(line.split(" = ")[1]+"\t")
+        if(line.split(" = ")[0] =="Field Size"):
+            arr.append(int(line.split(" = ")[1]))
+            
     s+="\n"
     file1.write(s)
     for line in file:
+        values = re.split(r'\t+', line.rstrip('\n'))
+        for i in range(0,len(values)):
+            b = len(values[i].encode())
+            if(b<=arr[i]):
+                continue
+            else:
+                print("Input Size doesnot match METADATA Specification")
+                sys.exit()
         file1.write(line)
         
 def findsum(fieldname,filename,metafile):
